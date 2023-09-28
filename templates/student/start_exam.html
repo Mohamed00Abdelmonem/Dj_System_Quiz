@@ -13,6 +13,9 @@
 
 <div class="jumbotron my-4">
 
+    <h1>{{ course.course_name }} Quiz</h1>
+    <h2>Time left: <span id="timer"></span></h2>
+
   <form class="form" autocomplete="off" onsubmit="return saveAns()"  action="/student/calculate-marks" method="POST">
     {% csrf_token %}
     <h1 style="text-align: center;">{{course.course_name}}</h1>
@@ -59,6 +62,44 @@
   </div>
 
 <script> 
+
+
+ var countdown;
+
+  function startTimer(duration, display) {
+    var timer = duration * 60;
+    var minutes, seconds;
+    countdown = setInterval(function () {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = minutes + ":" + seconds;
+
+      if (--timer < 0) {
+        clearInterval(countdown);
+        
+        // Timer has expired, redirect to the marks page
+        window.location.href = "{% url 'view-result' %}";
+      }
+    }, 1000);
+  }
+
+  window.onload = function () {  
+    var quizDuration = {{ course.duration }};
+    var display = document.querySelector('#timer');
+    startTimer(quizDuration, display);
+  };
+
+
+
+
+
+
+
+
     function saveAns(){  
 
         var ele = document.getElementsByTagName('input'); 

@@ -1,6 +1,7 @@
 {% extends 'quiz/adminbase.html' %}
 {% load widget_tweaks %}
 {% block content %}
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -16,7 +17,24 @@
       }
     
   </style>
+  
 </head>
+
+<div class="container mt-4">
+    {% if messages %}
+        <div class="alert alert-dismissible">
+            {% for message in messages %}
+                <div class="alert alert-info" class="alert alert-{{ message.tags }} fade show" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="alert alert-info">No messages to display.</p>
+    {% endif %}
+</div>
+
+
 <h2 style="text-align:center; color:blue;">ADD QUESTION</h2>
 <form method="POST" autocomplete="off" style="margin:100px;margin-top: 0px;">
     {%csrf_token%}
@@ -26,7 +44,7 @@
         <br>
 
       <label for="question">Question</label>
-      {% render_field questionForm.question|attr:'required:true' class="form-control" placeholder="What is the currency of India ?" %}
+      {% render_field questionForm.question|attr:'required:true' class="form-control" placeholder="What is the currency of Egypt ?" %}
         <br>
       <label for="question_number">Marks</label>
       {% render_field questionForm.marks|attr:'required:true' class="form-control" placeholder="10" %}
@@ -52,3 +70,4 @@
   </form>
 <br><br><br>
 {% endblock content %}
+

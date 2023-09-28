@@ -13,6 +13,7 @@ from student import models as SMODEL
 from teacher import forms as TFORM
 from student import forms as SFORM
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 
@@ -221,20 +222,29 @@ def admin_question_view(request):
     return render(request,'quiz/admin_question.html')
 
 
+
+
+
 @login_required(login_url='adminlogin')
 def admin_add_question_view(request):
-    questionForm=forms.QuestionForm()
-    if request.method=='POST':
-        questionForm=forms.QuestionForm(request.POST)
+    questionForm = forms.QuestionForm()
+    if request.method == 'POST':
+        questionForm = forms.QuestionForm(request.POST)
         if questionForm.is_valid():
-            question=questionForm.save(commit=False)
-            course=models.Course.objects.get(id=request.POST.get('courseID'))
-            question.course=course
-            question.save()       
+            question = questionForm.save(commit=False)
+            course = models.Course.objects.get(id=request.POST.get('courseID'))
+            question.course = course
+            question.save()
+            messages.success(request, 'Question added successfully!')
+            return HttpResponseRedirect('admin-add-question')
         else:
+            messages.error(request, 'Form is invalid. Please check your input.')
             print("form is invalid")
-        return HttpResponseRedirect('/admin-view-question')
-    return render(request,'quiz/admin_add_question.html',{'questionForm':questionForm})
+    return render(request, 'quiz/admin_add_question.html', {'questionForm': questionForm})
+
+
+
+
 
 
 @login_required(login_url='adminlogin')
