@@ -69,10 +69,12 @@ def student_dashboard_view(request):
         
         # Filter courses based on the student's year of study
         courses = QMODEL.Course.objects.filter(year_of_study=student_year)
-        
+        course_ids = courses.values_list('id', flat=True)
+        total_question = QMODEL.Question.objects.filter(course__in=course_ids).count()
+
         context = {
             'total_course': courses.count(),
-            'total_question': QMODEL.Question.objects.all().count(),
+            'total_question': total_question,
             'courses': courses,
         }
         return render(request, 'student/student_dashboard.html', context)
