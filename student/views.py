@@ -38,21 +38,64 @@ def student_signup_view(request):
 def is_student(user):
     return user.groups.filter(name='STUDENT').exists()
 
+
+
+# ----------------------------
+
+
+
+
+
+
+
+# @login_required(login_url='studentlogin')
+# @user_passes_test(is_student)
+# def student_dashboard_view(request):
+#     dict={
+    
+#     'total_course':QMODEL.Course.objects.all().count(),
+#     'total_question':QMODEL.Question.objects.all().count(),
+#     }
+#     return render(request,'student/student_dashboard.html',context=dict)
+
+
+
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
 def student_dashboard_view(request):
-    dict={
-    
-    'total_course':QMODEL.Course.objects.all().count(),
-    'total_question':QMODEL.Question.objects.all().count(),
-    }
-    return render(request,'student/student_dashboard.html',context=dict)
+  
+        # Get the student's year of study
+        student_year = request.user.student.year_of_study
+        
+        # Filter courses based on the student's year of study
+        courses = QMODEL.Course.objects.filter(year_of_study=student_year)
+        
+        context = {
+            'total_course': courses.count(),
+            'total_question': QMODEL.Question.objects.all().count(),
+            'courses': courses,
+        }
+        return render(request, 'student/student_dashboard.html', context)
+   
+
+
+
+
+# ----------------------------
+
 
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
 def student_exam_view(request):
-    courses=QMODEL.Course.objects.all()
+
+    student_year = request.user.student.year_of_study
+    courses = QMODEL.Course.objects.filter(year_of_study=student_year)
     return render(request,'student/student_exam.html',{'courses':courses})
+
+
+# ----------------------------
+
+
 
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
@@ -65,6 +108,9 @@ def take_exam_view(request,pk):
         total_marks=total_marks + q.marks
     
     return render(request,'student/take_exam.html',{'course':course,'total_questions':total_questions,'total_marks':total_marks})
+
+
+
 
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
@@ -107,8 +153,9 @@ def calculate_marks_view(request):
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
 def view_result_view(request):
-    courses=QMODEL.Course.objects.all()
-    return render(request,'student/view_result.html',{'courses':courses})
+ student_year = request.user.student.year_of_study
+ courses = QMODEL.Course.objects.filter(year_of_study=student_year)
+ return render(request,'student/view_result.html',{'courses':courses})
     
 
 @login_required(login_url='studentlogin')
@@ -117,7 +164,7 @@ def check_marks_view(request,pk):
     course=QMODEL.Course.objects.get(id=pk)
     student = models.Student.objects.get(user_id=request.user.id)
     results= QMODEL.Result.objects.all().filter(exam=course).filter(student=student)
-    return render(request,'student/check_marks.html',{'results':results})
+    return render(request,'student/check_marks.html',{'results':results, 'course':course})
 
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
