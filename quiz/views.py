@@ -50,15 +50,41 @@ def adminclick_view(request):
     return HttpResponseRedirect('adminlogin')
 
 
+# _______________________________________________
+
+
 @login_required(login_url='adminlogin')
 def admin_dashboard_view(request):
-    dict={
-    'total_student':SMODEL.Student.objects.all().count(),
-    'total_teacher':TMODEL.Teacher.objects.all().filter(status=True).count(),
-    'total_course':models.Course.objects.all().count(),
-    'total_question':models.Question.objects.all().count(),
+    dict = {
+        'total_students': {
+            'year1': SMODEL.Student.objects.filter(year_of_study='1').count(),
+            'year2': SMODEL.Student.objects.filter(year_of_study='2').count(),
+            'year3': SMODEL.Student.objects.filter(year_of_study='3').count(),
+        },
+        'total_teacher': TMODEL.Teacher.objects.all().filter(status=True).count(),
+        'total_course': models.Course.objects.all().count(),
+        'total_question': models.Question.objects.all().count(),
     }
     return render(request,'quiz/admin_dashboard.html',context=dict)
+
+
+
+# _______________________________________________
+
+@login_required(login_url='adminlogin')
+def admin_dashboard_deatil_view(request, pk):
+    dict = {
+       
+       
+        'total_student': SMODEL.Student.objects.filter(year_of_study=pk),
+        'total_course': models.Course.objects.filter(year_of_study=pk).count(),
+        # 'total_question': models.Question.objects.all().count(),
+    }
+    return render(request,'quiz/admin_dashboard_detail.html',context=dict)
+
+
+# _______________________________________________
+
 
 @login_required(login_url='adminlogin')
 def admin_teacher_view(request):
@@ -263,10 +289,30 @@ def delete_question_view(request,pk):
     question.delete()
     return HttpResponseRedirect('/admin-view-question')
 
+# _______________________________________________
+# هكمل هنا 
+
 @login_required(login_url='adminlogin')
-def admin_view_student_marks_view(request):
-    students= SMODEL.Student.objects.all()
-    return render(request,'quiz/admin_view_student_marks.html',{'students':students})
+def admin_view_student1_marks_view(request):
+    students= SMODEL.Student.objects.filter(year_of_study='1')
+    return render(request,'quiz/admin_view_student1_marks.html',{'students':students})
+
+
+@login_required(login_url='adminlogin')
+def admin_view_student2_marks_view(request):
+    students= SMODEL.Student.objects.filter(year_of_study='2')
+    return render(request,'quiz/admin_view_student2_marks.html',{'students':students})
+
+@login_required(login_url='adminlogin')
+def admin_view_student3_marks_view(request):
+    students= SMODEL.Student.objects.filter(year_of_study='3')
+    return render(request,'quiz/admin_view_student3_marks.html',{'students':students})
+
+
+
+# _______________________________________________
+
+
 
 @login_required(login_url='adminlogin')
 def admin_view_marks_view(request,pk):

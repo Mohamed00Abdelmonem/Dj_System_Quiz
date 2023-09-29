@@ -21,6 +21,7 @@ urlpatterns = [
     path('adminclick', views.adminclick_view),
     path('adminlogin', LoginView.as_view(template_name='quiz/adminlogin.html'),name='adminlogin'),
     path('admin-dashboard', views.admin_dashboard_view,name='admin-dashboard'),
+    path('admin-dashboard/year<int:pk>', views.admin_dashboard_deatil_view,name='admin-dashboard_detial'),
     path('admin-teacher', views.admin_teacher_view,name='admin-teacher'),
     path('admin-view-teacher', views.admin_view_teacher_view,name='admin-view-teacher'),
     path('update-teacher/<int:pk>', views.update_teacher_view,name='update-teacher'),
@@ -32,7 +33,9 @@ urlpatterns = [
 
     path('admin-student', views.admin_student_view,name='admin-student'),
     path('admin-view-student', views.admin_view_student_view,name='admin-view-student'),
-    path('admin-view-student-marks', views.admin_view_student_marks_view,name='admin-view-student-marks'),
+    path('admin-view-student-marks', views.admin_view_student1_marks_view,name='admin-view-student-marks'),
+    path('admin-view-student-marks', views.admin_view_student2_marks_view,name='admin-view-student-marks'),
+    path('admin-view-student-marks', views.admin_view_student3_marks_view,name='admin-view-student-marks'),
     path('admin-view-marks/<int:pk>', views.admin_view_marks_view,name='admin-view-marks'),
     path('admin-check-marks/<int:pk>', views.admin_check_marks_view,name='admin-check-marks'),
     path('update-student/<int:pk>', views.update_student_view,name='update-student'),
