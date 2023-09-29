@@ -1,22 +1,21 @@
 from django.db import models
 
 from student.models import Student
+class YearOFStudy(models.Model):
+    name = models.CharField(max_length=100)
+    
+    def __str__(self):
+            return self.name
 
 
-YEAR_CHOICES = [
-        ('one', 'one'),
-        ('two', 'two'),
-        ('three', 'three'),
-    ]
 
 class Course(models.Model):
+   year_of_study = models.ForeignKey(YearOFStudy, on_delete=models.CASCADE, related_name='year_course')
    course_name = models.CharField(max_length=50)
    question_number = models.PositiveIntegerField()
    total_marks = models.PositiveIntegerField()
    duration = models.PositiveIntegerField(default=30)  # Default duration of 30 minutes
-   year_of_study = models.CharField(
-        max_length=10, choices=YEAR_CHOICES, null=True, blank=True
-    )   
+     
    
    def __str__(self):
         return self.course_name
