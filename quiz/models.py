@@ -1,6 +1,9 @@
 from django.db import models
-
 from student.models import Student
+
+
+
+
 class YearOFStudy(models.Model):
     name = models.CharField(max_length=100)
     

@@ -8,7 +8,7 @@ class Student(models.Model):
     profile_pic= models.ImageField(upload_to='profile_pic/Student/',null=True,blank=True)
     address = models.CharField(max_length=40)
     mobile = models.CharField(max_length=20,null=False)
-    year_of_study = models.ForeignKey('quiz.YearOFStudy', on_delete=models.SET_NULL, null=True, blank=True)
+    year_of_study = models.ForeignKey('quiz.YearOFStudy', related_name='student_year_of_study',on_delete=models.SET_NULL, null=True, blank=True)
  
     @property
     def get_name(self):

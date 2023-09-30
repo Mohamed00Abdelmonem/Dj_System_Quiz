@@ -73,7 +73,7 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-4 col-xl-3">
+      {% comment %} <div class="col-md-4 col-xl-3">
         <div class="card bg-c-blue order-card">
           <div class="card-block">
             <h6 class="m-b-20"> <a href="admin-view-student" style="text-decoration: none;color:white;">Total Students</a> </h6>
@@ -111,7 +111,7 @@
             
           </div>
         </div>
-      </div>
+      </div> {% endcomment %}
 
 
 {% for year, count in total_students.items %}

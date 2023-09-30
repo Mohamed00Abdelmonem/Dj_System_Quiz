@@ -73,16 +73,18 @@
 
   <div class="container">
     <div class="row">
+    
       <div class="col-md-4 col-xl-3">
         <div class="card bg-c-blue order-card">
           <div class="card-block">
-            <h6 class="m-b-20"> <a href="{% url 'admin-view-student-marks' %}" style="text-decoration: none;color:white;">Total Students</a> </h6>
+            <h6 class="m-b-20"> <a href="/admin-view-student-marks/{{year}}" style="text-decoration: none;color:white;">Total Students</a> </h6>
             <h2 class="text-right"><i class="fas fa-user-graduate f-left"></i><span>{{total_student.count}}</span></h2>
-            
+           
           </div>
         </div>
       </div>
-  
+    
+   
    
       <div class="col-md-4 col-xl-3">
         <div class="card bg-c-yellow order-card">
@@ -98,7 +100,7 @@
         <div class="card bg-c-yellow order-card">
           <div class="card-block">
             <h6 class="m-b-20"><a href="{% url 'admin-course' %}" style="text-decoration: none;color:white;">Add Courses</a></h6>
-           <h2 class="text-right"><i class="fas fa-book f-left"></i><span>{{total_course}}</span></h2>
+           <h2 class="text-right"><i class="fas fa-book f-left"></i><span>+</span></h2>
             
           </div>
         </div>
@@ -106,17 +108,6 @@
   
 
 
-
-{% for year, count in total_students.items %}
-<div class="col-md-4 col-xl-3">
-    <div class="card bg-c-blue order-card">
-        <div class="card-block">
-            <h6 class="m-b-20"><a href="admin-view-student" style="text-decoration: none;color:white;">Total Students in Year {{ year }}</a></h6>
-            <h2 class="text-right"><i class="fas fa-user-graduate f-left"></i><span>{{ count }}</span></h2>
-        </div>
-    </div>
-</div>
-{% endfor %}
 
       
     </div>
